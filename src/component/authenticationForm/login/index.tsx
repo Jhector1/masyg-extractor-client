@@ -18,40 +18,6 @@ const LoginForm = ({ setVisible, closeModal }: LoginFormProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
-  // const login = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-
-  //   if (!currentUser.email || !currentUser.password) {
-  //     setErrorMessage('Email and password are required');
-  //     return;
-  //   }
-
-  //   setIsLoading(true);
-
-  //   try {
-  //     const result= await handleLogin(
-  //       currentUser.email,
-  //       currentUser.password
-  //     );
-
-  //     if (result.status === 200) {
-  //       closeModal();
-
-  //       // Store user information based on "Remember Me" selection
-  //       const storage = rememberMe ? localStorage : sessionStorage;
-  //       storage.setItem('user', JSON.stringify(result.data.user));
-       
-  //       dispatch({ type: 'LOGIN', payload: result.data.user });
-  //     } else {
-  //       setErrorMessage((result as ErrorResponse).error || 'Invalid email or password');
-  //     }
-  //   } catch (error) {
-  //     setErrorMessage('An unexpected error occurred. Please try again.');
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
-
   return (
     <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-6">
       <div className="flex justify-center mb-6">
@@ -71,7 +37,7 @@ const LoginForm = ({ setVisible, closeModal }: LoginFormProps) => {
             Email
           </label>
           <input
-            onChange={(e) =>
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               setCurrentUser({
                 ...currentUser,
                 email: e.target.value,
