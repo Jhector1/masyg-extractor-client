@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 200 200"
+  width="200"
+  height="200"
+>
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="90" fill="url(#grad-bg)" />
+
+  <!-- Define a gradient for the background circle -->
+  <defs>
+    <linearGradient id="grad-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#e0f7fa;stop-opacity:1" />
+    </linearGradient>
+
+    <!-- Blade Gradient -->
+    <linearGradient id="bladeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#e0e0e0" />
+      <stop offset="50%" stop-color="#f9f9f9" />
+      <stop offset="100%" stop-color="#d0d0d0" />
+    </linearGradient>
+
+    <!-- Handle Gradient -->
+    <linearGradient id="handleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#444" />
+      <stop offset="100%" stop-color="#222" />
+    </linearGradient>
+  </defs>
+
+  <!-- Spreadsheet-like File -->
+  <g transform="translate(30,40)">
+    <!-- File Body -->
+    <path d="M0,0 h120 v80 h-120 z" fill="#f8fdf8" stroke="#b0b0b0" stroke-width="2"/>
+
+    <!-- Highlighted header row (top 20px) -->
+    <rect x="0" y="0" width="120" height="20" fill="#e0f7fa" />
+
+    <!-- Folded corner (top right) -->
+    <path d="M118,0 l-18,18 v-18 z" fill="#e0e0e0" stroke="#b0b0b0" stroke-width="1"/>
+
+    <!-- Vertical grid lines for columns (every 20px) -->
+    <line x1="20" y1="0" x2="20" y2="80" stroke="#b0b0b0" stroke-width="1" />
+    <line x1="40" y1="0" x2="40" y2="80" stroke="#b0b0b0" stroke-width="1" />
+    <line x1="60" y1="0" x2="60" y2="80" stroke="#b0b0b0" stroke-width="1" />
+    <line x1="80" y1="0" x2="80" y2="80" stroke="#b0b0b0" stroke-width="1" />
+    <line x1="100" y1="0" x2="100" y2="80" stroke="#b0b0b0" stroke-width="1" />
+
+    <!-- Horizontal grid lines for rows (every 20px, except the top line which is the border) -->
+    <line x1="0" y1="20" x2="120" y2="20" stroke="#b0b0b0" stroke-width="1" />
+    <line x1="0" y1="40" x2="120" y2="40" stroke="#b0b0b0" stroke-width="1" />
+    <line x1="0" y1="60" x2="120" y2="60" stroke="#b0b0b0" stroke-width="1" />
+  </g>
+
+  <!-- Scissors Group -->
+  <g transform="translate(0,0)">
+    <!-- Handles -->
+    <ellipse cx="75" cy="115" rx="15" ry="20" fill="url(#handleGrad)" stroke="#333" stroke-width="2" />
+    <ellipse cx="105" cy="115" rx="15" ry="20" fill="url(#handleGrad)" stroke="#333" stroke-width="2" />
+
+    <!-- Inner cutouts -->
+    <ellipse cx="75" cy="115" rx="8" ry="13" fill="#fff" opacity="0.9" />
+    <ellipse cx="105" cy="115" rx="8" ry="13" fill="#fff" opacity="0.9" />
+
+    <!-- Pivot / Rivet -->
+    <circle cx="85" cy="115" r="4" fill="#999" stroke="#333" stroke-width="1" />
+
+    <!-- Blades -->
+    <!-- Top blade -->
+    <path d="M85,115 
+             L95,100 
+             Q110,85 130,78 
+             L133,82 
+             Q115,87 100,105 
+             L85,115 Z"
+          fill="url(#bladeGrad)" 
+          stroke="#555" 
+          stroke-width="1.5" />
+
+    <!-- Lower blade -->
+    <path d="M85,115 
+             L80,108 
+             Q65,95 60,80 
+             L63,77 
+             Q70,90 85,100 
+             L90,108 
+             Z"
+          fill="url(#bladeGrad)" 
+          stroke="#555" 
+          stroke-width="1.5" />
+  </g>
+
+</svg>
