@@ -265,7 +265,7 @@ export const loginWithGoogle = async (navigate: any, dispatch: Dispatch<AuthActi
   try {
     const result = await signInWithPopup(auth, provider);
     const idToken = await result.user.getIdToken();
-    console.log(idToken);
+    // console.log(idToken);
 
     const response = await axiosWithCredentials.post('/login', { googleIdToken: idToken });
 
