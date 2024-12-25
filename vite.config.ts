@@ -9,8 +9,8 @@ export default defineConfig({
   // },
 
     server: {
-      host: '127.0.0.1',
-      port: 3000, // Optional, default is 5173 for Vite
+      host: import.meta.env.VITE_CLIENT,
+      port: Number(import.meta.env.VITE_CLIENT_PORT), // Optional, default is 5173 for Vite
     },
   
 })
