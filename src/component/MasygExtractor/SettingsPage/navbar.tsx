@@ -11,7 +11,7 @@ interface PaymentNavBarProps {
 export function PaymentNavBar({ isLoading, setIsLoading }: PaymentNavBarProps) {
   const { dispatch } = useAuth();
   return (
-    <aside className='w-64 h-[100vh] flex flex-col sticky top-0 bg-white shadow-md p-4'>
+    <aside className='w-64 h-[100vh] hidden md:flex flex-col sticky top-0 bg-white shadow-md p-4'>
       <h1 className='text-xl font-bold text-red-600 mb-8'>Masyg PDF Extractor</h1>
       <div className='flex items-center justify-center py-6'>
         <MasygLogo color='gray' size={100} />

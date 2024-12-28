@@ -8,16 +8,20 @@ import MasygModal from "../../tool/Modal";
 import AuthenticationForm from "../authenticationForm";
 import { useAuth } from "../../context";
 import { useModal } from "../../hooks/useModal.ts";
+import { useMenu } from "@/context/MenuContext.tsx";
 
 const MasygNavigation = () => {
   const { state } = useAuth();
   const { isOpen, closeModal, openModal } = useModal();
+  const { isMenuOpen, toggleMenu } = useMenu();
 
   const handleHelpClick = () => {
     alert(
       "Self help is currently not available. Please contact us at support@masyglink.com"
     );
   };
+
+ 
 
   return (
     <nav className="bg-white border-b w-full border-gray-200 dark:bg-gray-900">
@@ -40,9 +44,10 @@ const MasygNavigation = () => {
         {/* Hamburger Menu (Mobile) */}
         <button
           type="button"
+          onClick={toggleMenu}
           className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
           aria-controls="navbar-default"
-          aria-expanded="false"
+          aria-expanded={isMenuOpen}
         >
           <span className="sr-only">Open main menu</span>
           <svg
@@ -63,7 +68,12 @@ const MasygNavigation = () => {
         </button>
 
         {/* Navbar Links */}
-        <div className="hidden w-full md:block md:w-auto" id="navbar-default">
+        <div
+          className={`${
+            isMenuOpen ? "block" : "hidden"
+          } w-full md:block md:w-auto`}
+          id="navbar-default"
+        >
           <ul className="font-medium flex flex-col md:flex-row md:space-x-8 rtl:space-x-reverse">
             {!state.isAuthenticated ? (
               <li>
@@ -74,13 +84,10 @@ const MasygNavigation = () => {
                   Login
                 </h3>
               </li>
-            ): (
+            ) : (
               <li>
-                <h3
-                  className="h-6 italic text-gray-500 font-bold cursor-pointer hover:text-red-600 mr-20"
-      
-                >
-                 {state.user?.username}
+                <h3 className="h-6 italic text-gray-500 font-bold cursor-pointer hover:text-red-600 mr-20">
+                  {state.user?.username}
                 </h3>
               </li>
             )}

@@ -6,6 +6,7 @@ import { User } from './type';
 import axios from 'axios';
 import MasygExtractor from './component/MasygExtractor';
 import Spinner from './tool/Spinner';
+import { MenuProvider } from './context/MenuContext';
 
 const axiosWithCredentials = axios.create({
   baseURL: `${import.meta.env.VITE_BASE_URL}`,
@@ -13,7 +14,7 @@ const axiosWithCredentials = axios.create({
 });
 function App() {
   const [loading, setLoading] = useState(true);
-  const { dispatch} = useAuth();
+  const { dispatch } = useAuth();
 
   const fetchCurrentUser = async () => {
     try {
@@ -23,31 +24,26 @@ function App() {
       console.log('User', response.data.user);
       const currentUser: User = response.data.user;
       const storage =
-      localStorage.getItem('user') && localStorage.getItem('user') !== 'undefined'
-        ? localStorage
-        : sessionStorage;
-      if(currentUser){
-    
+        localStorage.getItem('user') && localStorage.getItem('user') !== 'undefined'
+          ? localStorage
+          : sessionStorage;
+      if (currentUser) {
+        // Persist user in storage
 
-      // Persist user in storage
-    
-
-      // Avoid overwriting state if user is already logged in
-      if (storage.getItem('user')|| storage.getItem('user')!=='undefined'  ) {
-        dispatch({ type: 'LOGIN', payload: currentUser });
-        storage.setItem('user', JSON.stringify(currentUser));
-        console.log('User logged in:', currentUser);
-      } }
-      else {
+        // Avoid overwriting state if user is already logged in
+        if (storage.getItem('user') || storage.getItem('user') !== 'undefined') {
+          dispatch({ type: 'LOGIN', payload: currentUser });
+          storage.setItem('user', JSON.stringify(currentUser));
+          console.log('User logged in:', currentUser);
+        }
+      } else {
         storage.removeItem('user');
         dispatch({ type: 'LOGOUT' });
         await axiosWithCredentials.get('/api/user/logout');
       }
-    
     } catch (error) {
       console.error('Error fetching current user:', error);
-    }
-    finally {
+    } finally {
       setLoading(false);
     }
   };
@@ -84,14 +80,16 @@ function App() {
       // <div className="min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4">
       //   <p>Loading...</p>
       // </div>
-      <Spinner/>
+      <Spinner />
     );
   }
 
   return (
     <div className='min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4'>
-    {/* <QuickActions/> */}
-      <MasygExtractor />
+      {/* <QuickActions/> */}
+      <MenuProvider>
+        <MasygExtractor />
+      </MenuProvider>
     </div>
   );
 }

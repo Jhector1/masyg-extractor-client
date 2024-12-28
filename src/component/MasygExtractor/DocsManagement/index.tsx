@@ -5,6 +5,7 @@ import ErrorPage from "../../ErrorPage.tsx";
 import { useModal } from "../../../hooks/useModal.ts";
 import { useAuth } from "../../../context/index.tsx";
 import Spinner from "../../../tool/Spinner/index.tsx";
+import { useMenu } from "@/context/MenuContext.tsx";
 
 const MasygDashboard = lazy(() => import("./Dashboard.tsx"));
 const AllDocs = lazy(() => import("./AllDocument.tsx"));
@@ -14,12 +15,14 @@ const DocsManagement: React.FC = () => {
   const { state } = useAuth();
   const [uploads, setUploads] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
+ const { isMenuOpen, toggleMenu } = useMenu();
+
   if(loading)
     return <Spinner opacity={1}/>
   return (
     <div className="flex gap-5 justify-around min-h-screen bg-gray-100 p-4">
       {/* Sidebar */}
-      {state.isAuthenticated && uploads.length>0 && <DocsManagementNavigation openModal={openModal} />}
+      {state.isAuthenticated && uploads.length>0 && <DocsManagementNavigation open={isMenuOpen ? 'flex': 'hidden'} openModal={openModal} />}
 
       {/* Main Content */}
       <div className="flex-1">

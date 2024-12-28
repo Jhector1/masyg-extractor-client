@@ -3,6 +3,7 @@ import { useAuth } from '../../../../context';
 import { User } from '../../../../type.ts';
 import axios from 'axios';
 import { AxiosResponse } from 'axios';
+import { useLocation } from 'react-router-dom';
 
 const axiosWithCredentials = axios.create({
   baseURL: `${import.meta.env.VITE_BASE_URL}`,
@@ -11,6 +12,12 @@ const axiosWithCredentials = axios.create({
 
 const SubscriptionSuccess = () => {
   const { dispatch, state } = useAuth();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+
+  // Get query parameters
+  const plan = searchParams.get('plan'); // e.g., "react"
+  const price = searchParams.get('price');  // e.g., "2"
 
   // Reusable function to fetch the current user
   const fetchCurrentUser = async () => {
@@ -77,7 +84,7 @@ const SubscriptionSuccess = () => {
         </p>
         <div className="bg-gray-100 p-4 rounded-lg mb-6">
           <h3 className="text-lg font-semibold text-gray-700">Your Subscription Plan:</h3>
-          <p className="text-gray-600">Annual Plan - $24.9/month</p>
+          <p className="text-gray-600">{plan} - ${price}</p>
           <p className="text-gray-600">Start Date: {new Date().toLocaleDateString()}</p>
         </div>
         <button

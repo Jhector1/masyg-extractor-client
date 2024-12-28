@@ -125,16 +125,16 @@ const SubscriptionPlans = () => {
           ))}
         </div>
         <p className='mt-6 text-sm text-gray-500 text-center'>
-          After 7 days, the price is $35 with auto-renewal. Billed every 4 weeks. Cancel anytime.
+          After 7 days, the price is $35.95 + TAXES with auto-renewal. Billed every 4 weeks. Cancel anytime.
         </p>
         <p className='text-sm text-gray-500 text-center'>
           Money-back guarantee for 7 days. Contact{' '}
           <a href='mailto:support@yourdomain.com' className='text-blue-500'>
-            support@yourdomain.com
+            support@masyglink.com
           </a>{' '}
           or call{' '}
           <a href='tel:+1234567890' className='text-blue-500'>
-            +1 (123) 456-7890
+            +1 (773) 690-7299
           </a>
           .
         </p>
