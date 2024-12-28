@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
-import PaymentSection from './Subscription/PaymentSection.tsx';
 import { useAuth } from '../../../context';
 
 import MasygModal from '../../../tool/Modal';
-import SubscriptionPlans from './Subscription';
+import SubscriptionPlans from './payment/Subscription/index.tsx';
 import { useModal } from '../../../hooks/useModal.ts';
 // import DeleteModal from '../../tool/Modal/ConfirmModal';
 import ConfirmDeleteSubscriptionModal from '../../../tool/Modal/ConfirmModal.tsx';
@@ -13,7 +12,6 @@ import ToastSuccess from '../../../tool/toast';
 import {
   fetchPaymentMethod,
   handleDeleteSubscription,
-  reactivateSubscription,
 } from './payment/client.ts';
 import { PaymentNavBar } from './navbar.tsx';
 import { AccountManagement } from './AccountManagement.tsx';

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { useAuth } from '../../../../context';
-import { User } from '../../../../type.ts';
+import { useAuth } from '../../../../../context/index.tsx';
+import { User } from '../../../../../type.ts';
 import axios from 'axios';
 import { AxiosResponse } from 'axios';
 import { useLocation } from 'react-router-dom';

@@ -1,19 +1,21 @@
 import { useState } from 'react';
-import { handleCheckout } from '../payment/client.ts';
-import useUnsavedChanges from '../../../../hooks/useUnsavedChanges.ts';
-import { useAuth } from '../../../../context/index.tsx';
+import { handleCheckout } from '../client.ts';
+import useUnsavedChanges from '../../../../../hooks/useUnsavedChanges.ts';
+import { useAuth } from '../../../../../context/index.tsx';
 import { LockClosedIcon } from '@heroicons/react/20/solid';
+import { Link } from 'react-router-dom';
 
 const SubscriptionPlans = () => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
   const [handleSaveData] = useUnsavedChanges();
   const { state } = useAuth();
+  const [loading, setLoading] = useState<boolean>(false);
 
   // Plans with price IDs to pass dynamically
   const plans = [
     {
       title: '7-day Trial',
-      price: '$0.95',
+      price: '$0.00',
       priceId: 'price_7DAYTRIAL', // Replace with your Stripe price ID
       features: [
         'Extract keywords from up to 5 PDFs or images',
@@ -95,37 +97,54 @@ const SubscriptionPlans = () => {
                     ))}
                   </ul>
                   <button
-                    disabled={plan.trial && state.user?.hasUsedTrial || plan.annual}
+                    disabled={(plan.trial && state.user?.hasUsedTrial) || plan.annual}
                     onClick={() => {
                       handleSaveData();
-                      handleCheckout(plan.trial); // Pass trial flag and priceId
+                      handleCheckout(plan.trial, loading, setLoading); // Pass trial flag and priceId
                     }}
                     className={`mt-6 w-full py-2 flex justify-center gap-2 px-4 font-bold text-white rounded ${
-                      plan.trial && state.user?.hasUsedTrial || plan.annual && 'cursor-not-allowed'
-                    } ${
-                      plan.popular
-                        ? 'bg-blue-500 hover:bg-blue-600'
-                        : 'bg-gray-700 hover:bg-gray-800'
-                    }`}>
-                      {plan.annual&&   <LockClosedIcon className='h-6 w-6 text-gray-300' />}
-                    {plan.trial ? (
-                      state.user?.hasUsedTrial ? (
-                        <><LockClosedIcon className='h-6 w-6 text-gray-300' /> <p>Trial used. Please choose a paid plan.</p></>
-                      ) : (
-                        <span>Choose {plan.title}</span>
-                      )
+                      (plan.trial && state.user?.hasUsedTrial) ||
+                      (plan.annual && 'cursor-not-allowed')
+                    }    ${
+                      loading
+                        ? 'bg-gray-400 text-gray-200 cursor-not-allowed'
+                        : plan.popular
+                          ? 'bg-blue-500 hover:bg-blue-600'
+                          : 'bg-gray-700 hover:bg-gray-800'
+                    })  
+                    }   `}>
+                    {loading ? (
+                      'Checking out...'
                     ) : (
-                      <span>Choose {plan.title}</span>
+                      <>
+                        {plan.annual && <LockClosedIcon className='h-6 w-6 text-gray-300' />}
+                        {plan.trial ? (
+                          state.user?.hasUsedTrial ? (
+                            <>
+                              <LockClosedIcon className='h-6 w-6 text-gray-300' />{' '}
+                              <p>Trial used. Please choose a paid plan.</p>
+                            </>
+                          ) : (
+                            <span>Choose {plan.title}</span>
+                          )
+                        ) : (
+                          <span>Choose {plan.title}</span>
+                        )}
+                      </>
                     )}
-
                   </button>
+                  <br/>
+          <small>
+            By choosing this plan, you agree to the<Link style={{textDecoration:'underline'}} to={'/terms-of-use'}> Terms of Use </Link> and <Link style={{textDecoration:'underline'}} to={'/privacy-policy'}> and Privacy Policy </Link>of Masyg Extractor
+          </small>
                 </div>
               )}
             </div>
           ))}
         </div>
         <p className='mt-6 text-sm text-gray-500 text-center'>
-          After 7 days, the price is $35.95 + TAXES with auto-renewal. Billed every 4 weeks. Cancel anytime.
+          After 7 days, the price is $30.95 + TAXES with auto-renewal. Billed every 4 weeks. Cancel
+          anytime.
         </p>
         <p className='text-sm text-gray-500 text-center'>
           Money-back guarantee for 7 days. Contact{' '}
@@ -136,7 +155,8 @@ const SubscriptionPlans = () => {
           <a href='tel:+1234567890' className='text-blue-500'>
             +1 (773) 690-7299
           </a>
-          .
+        
+  
         </p>
       </div>
     </div>

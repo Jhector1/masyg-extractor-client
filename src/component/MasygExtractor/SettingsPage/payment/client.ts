@@ -40,7 +40,8 @@ export const handleDeletePaymentMethod = async (
     setIsLoading(false);
   }
 };
-export const handleCheckout = async (freeTrial: boolean) => {
+export const handleCheckout = async (freeTrial: boolean, loading: boolean, setLoading: (loading: boolean)=>void) => {
+  setLoading(true);
   const stripe = await stripePromise; // Ensure Stripe is loaded
 
   try {
@@ -61,6 +62,9 @@ export const handleCheckout = async (freeTrial: boolean) => {
   } catch (error) {
     console.error('Error creating checkout session:', error);
     alert('An error occurred while creating the checkout session.'+ error);
+  }
+  finally{
+    setLoading(false);
   }
 };
 

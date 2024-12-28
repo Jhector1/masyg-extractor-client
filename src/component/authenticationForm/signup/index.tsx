@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { User } from '../../../type';
 import { handleSignup } from '../client';
+import { Link } from 'react-router-dom';
 
 type SignupFormProps = {
   setVisible: (visible: string) => void;
@@ -169,6 +170,9 @@ const SignupForm = ({ setVisible }: SignupFormProps) => {
           <img src="https://img.icons8.com/ios-filled/24/000000/mac-os.png" alt="Apple" className="h-5 w-5 mr-2" />
           Sign up with Apple
         </button>
+        <small>
+            By signing or signup to Masyg Extractor, you agree to the<Link style={{textDecoration:'underline'}} to={'/terms-of-use'}> Terms of Use </Link> and <Link style={{textDecoration:'underline'}} to={'/privacy-policy'}> and Privacy Policy </Link>of Masyg Extractor
+          </small>
       </div>
     </div>
   );

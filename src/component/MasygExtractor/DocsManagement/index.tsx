@@ -15,7 +15,7 @@ const DocsManagement: React.FC = () => {
   const { state } = useAuth();
   const [uploads, setUploads] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
- const { isMenuOpen, toggleMenu } = useMenu();
+ const { isMenuOpen } = useMenu();
 
   if(loading)
     return <Spinner opacity={1}/>

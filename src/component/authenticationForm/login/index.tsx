@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import { useAuth } from '../../../context';
 import {  handleLogin, loginWithGoogle } from '../client';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 type LoginFormProps = {
@@ -114,6 +114,9 @@ const LoginForm = ({ setVisible, closeModal }: LoginFormProps) => {
           <img src="https://img.icons8.com/ios-filled/24/000000/mac-os.png" alt="Apple" className="h-5 w-5 mr-2" />
           Sign in with Apple
         </button>
+        <small>
+            By signing or signup to Masyg Extractor, you agree to the<Link style={{textDecoration:'underline'}} to={'/terms-of-use'}> Terms of Use </Link> and <Link style={{textDecoration:'underline'}} to={'/privacy-policy'}> and Privacy Policy </Link>of Masyg Extractor
+          </small>
       </div>
     </div>
   );

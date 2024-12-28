@@ -8,7 +8,7 @@ import useUnsavedChanges from '../../../hooks/useUnsavedChanges';
 import Spinner from '../../../tool/Spinner';
 import { useAuth } from '../../../context';
 import AuthenticationForm from '../../authenticationForm';
-import SubscriptionPlans from '../SettingsPage/Subscription';
+import SubscriptionPlans from '../SettingsPage/payment/Subscription';
 import { FileUploader } from '../../../tool/FileUploader';
 import { MasygCombiner } from './Combiner';
 import { fetchAndProcessData, masygHandleUpload } from './client';
