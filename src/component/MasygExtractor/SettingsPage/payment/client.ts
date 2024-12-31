@@ -5,8 +5,8 @@ import { AuthAction, GeneralResponse, State } from '../../../../type.ts';
 import { AxiosResponse } from 'axios';
 
 import { CheckoutSession, PaymentMethod } from '../../../../type.ts';
-const stripePromise = loadStripe(
-  'pk_test_51QUEW1Q7NgL1u0bJbLHL7fhlGdeyKrX3ru5wFabE02lnkDTWg91HLYMebZedlgfooh8lJaSSLhmp056Gxmjn5V6u00bYpl0C80',
+const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY
+  ,
 );
 
 const axiosWithCredentials = axios.create({

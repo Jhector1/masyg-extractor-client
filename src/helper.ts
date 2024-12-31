@@ -1,8 +1,6 @@
-import { ApiResponse, PaymentMethod } from './type';
+import { ApiResponse } from './type';
 import * as XLSX from 'xlsx';
-import { loadStripe } from '@stripe/stripe-js';
-import axios from 'axios';
-import { useAuth } from './context';
+
 // Axios instance
 
 
@@ -27,7 +25,9 @@ export function parseCurrency(currency: string) {
 
 export const exportToExcel = (
   keywords: ApiResponse[],
-  checkSave: () => void
+
+  checkSave: () => void,
+  fileName?: string,
 ) => {
   const data: ApiResponse[] = [];
 
@@ -41,7 +41,7 @@ export const exportToExcel = (
   const ws = XLSX.utils.json_to_sheet(data);
   const wb = XLSX.utils.book_new();
   XLSX.utils.book_append_sheet(wb, ws, 'Keywords');
-  XLSX.writeFile(wb, 'keywords.xlsx');
+  XLSX.writeFile(wb, fileName || 'keywords.xlsx');
 };
 
 

@@ -42,7 +42,8 @@ const SettingsPage = () => {
   }, [dispatch]);
 
   return (
-    <div className='min-h-screen bg-gray-100'>
+    <>  
+    <div className='flex m-auto max-w-[70rem]  justify-between bg-gray-100'>
       {isLoading && <Spinner />}
       {showToast && (
         <ToastSuccess message='User info updated successfully.' onClose={handleClose} />
@@ -65,7 +66,9 @@ const SettingsPage = () => {
         <SubscriptionPlans />
       </MasygModal>
       {/* Sidebar */}
-      <div className='ml-[10rem] max-w-[70rem] flex w-md'>
+      {/* <div className='max-w-[70rem] w-full bg-blue-500 '>
+        </div> */}
+      {/* <div className='max-w-[70rem] bg-blue-500 '> */}
         <PaymentNavBar setIsLoading={setIsLoading} isLoading={isLoading} />
 
         {/* Content Area */}
@@ -104,11 +107,12 @@ const SettingsPage = () => {
             setIsLoading={setIsLoading}
           />
         </div>
-      </div>
+      {/* </div> */}
 
       {/* Footer */}
-      <Footer/>
+   
     </div>
+    <Footer/></>
   );
 };
 

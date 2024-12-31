@@ -45,7 +45,7 @@ export const handleFileUpload = (
       }));
 
       setData(enrichedData); // Update state with enriched data
-      console.log(enrichedData);
+   
     } catch (error) {
       console.error('Error processing file:', error);
     }
