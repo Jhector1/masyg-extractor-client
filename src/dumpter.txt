@@ -1,189 +1,21 @@
-import { useEffect } from 'react';
-import MasygExtractor from './component/MasygExtractor';
-import { useAuth } from './context';
-import { AxiosResponse } from 'axios';
-import { User } from './type';
-import axios from 'axios';
-const axiosWithCredentials = axios.create({
-  baseURL: `${import.meta.env.VITE_BASE_URL}`,
-  withCredentials: true, // Required for session cookies
-});
-function App() {
-  const { dispatch, state } = useAuth();
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
-  const fetchCurrentUser = async () => {
-    try {
-      const response: AxiosResponse<{ user: User }> =
-        await axiosWithCredentials.get('/api/user/current');
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyBGwD7ql-AnTNNaEcDFkgnaGVDAuw3QaQ4",
+  authDomain: "masyg-extractor-test.firebaseapp.com",
+  projectId: "masyg-extractor-test",
+  storageBucket: "masyg-extractor-test.firebasestorage.app",
+  messagingSenderId: "646329283469",
+  appId: "1:646329283469:web:8c5fd28e32a926ba13c3c4",
+  measurementId: "G-G04032YSB6"
+};
 
-      console.log('User', response.data.user);
-      const currentUser: User = response.data.user;
-      const storage =
-        localStorage.getItem('user') && localStorage.getItem('user') !== 'undefined'
-          ? localStorage
-          : sessionStorage;
-
-      // Persist user in storage
-    
-
-      // Avoid overwriting state if user is already logged in
-      if (storage.getItem('user')|| storage.getItem('user')!=='undefined'  ) {
-        dispatch({ type: 'LOGIN', payload: currentUser });
-        storage.setItem('user', JSON.stringify(currentUser));
-        console.log('User logged in:', currentUser);
-      } else {
-        storage.removeItem('user');
-        dispatch({ type: 'LOGOUT' });
-      }
-    } catch (error) {
-      console.error('Error fetching current user:', error);
-    }
-  };
-
-  useEffect(() => {
-    fetchCurrentUser();
-    // const loginUser = (storedData: string | null) => {
-    //   try {
-    //     if (storedData) {
-    //       const user = JSON.parse(storedData);
-    //       if (user) {
-    //         dispatch({ type: 'LOGIN', payload: user });
-    //       }
-    //     }
-    //   } catch (error) {
-    //     console.error('Error parsing user data:', error);
-    //   }
-    // };
-
-    // const storedUser = localStorage.getItem('user');
-    // const sessionUser = sessionStorage.getItem('user');
-
-    // console.log('Stored User:', storedUser);
-    // console.log('Session User:', sessionUser);
-
-    // if (storedUser && storedUser !== "undefined") {
-    //   loginUser(storedUser);
-    // } else if (sessionUser && sessionUser !== "undefined") {
-    //   loginUser(sessionUser);
-    // }
-  }, [dispatch]);
-
-  return (
-    <div className='min-h-screen bg-gray-100 flex flex-col items-center justify-center p-4'>
-      <MasygExtractor />
-    </div>
-  );
-}
-
-export default App;
-
-
-****************************************************************************************************************
-
-
-
-
-
-import React, { useMemo, useState } from 'react';
-
-interface SidebarProps {
-  setSelectedFiles: React.Dispatch<React.SetStateAction<string[]>>;
-  uploads: any[];
-  loading: boolean;
-  selectedFiles: string[]
-}
-
-export default function DocsAccordionFileDistributor({selectedFiles, setSelectedFiles, uploads, loading }: SidebarProps) {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-  // Memoize selected file states to avoid unnecessary recomputations
-  const fileSelections = useMemo(() => {
-    const selections = new Set(selectedFiles);
-    return uploads.reduce((acc, item) => {
-      Object.keys(item.files).forEach((file) => {
-        acc[file] = selections.has(file);
-      });
-      return acc;
-    }, {} as Record<string, boolean>);
-  }, [uploads, selectedFiles]);
-
-  const toggleAccordion = (index: number) => {
-    setActiveIndex(activeIndex === index ? null : index);
-  };
-
-  const handleCheckboxChange = (file: string, checked: boolean) => {
-    setSelectedFiles((prev) =>
-      checked ? [...prev, file] : prev.filter((selectedFile) => selectedFile !== file)
-    );
-  };
-
-  return (
-    <div className="max-w-[25rem] p-4 bg-white rounded-lg shadow-md">
-      <h2 className="text-xl font-bold text-gray-800 mb-4">Uploaded Files</h2>
-
-      {loading ? (
-        <div className="p-5 text-center text-gray-500">Loading uploads...</div>
-      ) : uploads.length === 0 ? (
-        <div className="p-5 text-center text-gray-500">No uploads found.</div>
-      ) : (
-        uploads.map((item, index) => (
-          <div
-            key={index}
-            className="mb-4 border border-gray-200 rounded-lg shadow-sm overflow-hidden"
-          >
-            {/* Group Header */}
-            <button
-              type="button"
-              className={`flex items-center justify-between w-full px-4 py-2 text-left font-medium text-gray-800 ${
-                activeIndex === index ? 'bg-blue-100 text-blue-600' : 'bg-gray-50 hover:bg-blue-50'
-              }`}
-              onClick={() => toggleAccordion(index)}
-            >
-              <span>{item.group_id}</span>
-              <svg
-                className={`w-5 h-5 transition-transform transform ${
-                  activeIndex === index ? 'rotate-180' : ''
-                }`}
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M19 9l-7 7-7-7"
-                />
-              </svg>
-            </button>
-
-            {/* Nested File Names */}
-            <div
-              className={`transition-all duration-300 ${
-                activeIndex === index ? 'max-h-screen' : 'max-h-0'
-              } overflow-hidden`}
-            >
-              <div className="bg-gray-50 p-4">
-                {Object.keys(item.files).map((file, fileIndex) => (
-                  <div
-                    key={fileIndex}
-                    className="flex items-center p-2 mb-2 bg-white border border-gray-200 rounded-md shadow-sm"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={fileSelections[file] || false}
-                      className="form-checkbox h-5 w-5 text-blue-600 rounded mr-2"
-                      onChange={(e) => handleCheckboxChange(file, e.target.checked)}
-                    />
-                    <span className="text-gray-700">{file}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        ))
-      )}
-    </div>
-  );
-}
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);

@@ -10,7 +10,7 @@ export default defineConfig({
   // },
 
     server: {
-      host: process.env.VITE_CLIENT,
+      host: process.env.VITE_CLIENT || '127.0.0.1',
       port: Number(process.env.VITE_CLIENT_PORT || 3000), // Optional, default is 5173 for Vite
     },
     resolve: {

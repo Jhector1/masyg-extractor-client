@@ -1,3 +1,4 @@
+import handleManageBilling from '@/component/authenticationForm/client.ts';
 import { useAuth } from '../../../../context';
 import { PaymentMethod } from '../../../../type.ts';
 import { reactivateSubscription } from './client.ts';
@@ -71,6 +72,7 @@ const {dispatch, state}= useAuth();
           </>
         )}
       </div>
+     
     </section>
   );
 }

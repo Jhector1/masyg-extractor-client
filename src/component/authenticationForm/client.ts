@@ -1,15 +1,13 @@
-import axios, {  AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { AuthAction, GeneralResponse, State, User, UserUpdateInfo } from '../../type';
 import { Dispatch } from 'react';
-import { signInWithPopup } from "firebase/auth";
-import { auth, provider } from "../../../firebase-config";
+import { signInWithPopup } from 'firebase/auth';
+import { auth, provider } from '../../../firebase-config';
 // Axios instance
 const axiosWithCredentials = axios.create({
   baseURL: `${import.meta.env.VITE_BASE_URL}/api/user`,
   withCredentials: true, // Required for session cookies
 });
-
-
 
 // Response types
 export interface ErrorResponse {
@@ -258,14 +256,15 @@ export const handleResetPassword = async (
   }
 };
 
-
-export const loginWithGoogle = async (navigate: any, dispatch: Dispatch<AuthAction>,   closeModal: () => void,) => {
-
-
+export const loginWithGoogle = async (
+  navigate: any,
+  dispatch: Dispatch<AuthAction>,
+  closeModal: () => void,
+) => {
   try {
     const result = await signInWithPopup(auth, provider);
     const idToken = await result.user.getIdToken();
-    // console.log(idToken);
+    //console.log(idToken);
 
     const response = await axiosWithCredentials.post('/login', { googleIdToken: idToken });
 
@@ -286,11 +285,43 @@ export const loginWithGoogle = async (navigate: any, dispatch: Dispatch<AuthActi
     closeModal();
   } catch (error: any) {
     console.error('Error during sign-in:', error);
-    const message =
-      error.response?.data?.message || 'Failed to log in. Please try again.';
+    const message = error.response?.data?.message || 'Failed to log in. Please try again.';
     alert(message);
   }
 };
+
+const handleManageBilling = async (setLoading: (load: boolean) => void) => {
+  try {
+    setLoading(true);
+    // Send a POST request to the Flask backend using Axios
+    const response = await axiosWithCredentials.post(
+      '/create-customer-portal',
+      {}, // Pass the body here if needed; {} is empty for this example
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        withCredentials: true, // Include cookies for session validation
+      },
+    );
+
+    if (response.status === 200) {
+      // Redirect to the Stripe Customer Portal
+      window.location.href = response.data.url;
+    } else {
+      // Handle errors
+      alert(response.data.error || 'An error occurred');
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('An unexpected error occurred.');
+  } finally {
+    setLoading(false);
+  }
+};
+
+export default handleManageBilling;
+
 // const logout = async () => {
 //   try {
 //     await signOut(auth);
